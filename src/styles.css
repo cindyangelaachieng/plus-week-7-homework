@@ -75,6 +75,20 @@ a:link {
   font-weight: 100;
   font-style: italic;
 }
+.description {
+  text-align: left;
+  font-size: 12px;
+  font-style: italic;
+  margin-bottom: 0;
+  font-weight: 100;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+li:first-letter {
+  text-transform: capitalize;
+}
 .today,
 .today-card {
   padding-left: 0;

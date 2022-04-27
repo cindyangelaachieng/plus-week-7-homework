@@ -41,14 +41,14 @@ function formatDate(timestamp) {
 function enterCity(event) {
   event.preventDefault();
   let newCity = document.querySelector("#city-search");
+  searchCity(newCity.value);
+}
+
+function searchCity(city) {
   let apiKey = "bc8c015e37beb9dba84c5e94d482acec";
   let apiSource = "https://api.openweathermap.org/data/2.5/";
-  let apiUrl = `${apiSource}weather?q=${newCity.value}&appid=${apiKey}&units=metric`;
-  let replaceCity = document.querySelector("#current-city");
-  if (replaceCity.length >= 0) {
-    replaceCity = replaceCity.trim();
-  }
-  replaceCity.innerHTML = `${newCity.value.toUpperCase()}`;
+  let apiUrl = `${apiSource}weather?q=${city}&appid=${apiKey}&units=metric`;
+
   axios.get(`${apiUrl}&appid=${apiKey}`).then(currentWeather);
 }
 
@@ -58,15 +58,20 @@ function currentWeather(weather) {
   let temperature = Math.round(celTemp);
   let windSpeed = Math.round(weather.data.wind.speed);
   let hum = Math.round(weather.data.main.humidity);
+  let cityElement = document.querySelector("#current-city");
   let tempElement = document.querySelector("#temp-num");
   let windElement = document.querySelector("#wind");
   let humidityElement = document.querySelector("#humidity");
+  let descriptionElement = document.querySelector("#description");
   let dateCityElement = document.querySelector("#date-city");
   let iconElement = document.querySelector("#icon");
+  console.log(weather);
 
+  cityElement.innerHTML = weather.data.name.toUpperCase();
   tempElement.innerHTML = `${temperature}`;
   windElement.innerHTML = `${windSpeed}`;
   humidityElement.innerHTML = `${hum}`;
+  descriptionElement.innerHTML = weather.data.weather[0].description;
   dateCityElement.innerHTML = formatDate(weather.data.dt * 1000);
   iconElement.setAttribute(
     "src",
@@ -130,3 +135,5 @@ fahrLink.addEventListener("click", showFahrTemp);
 
 let celLink = document.querySelector("#cel-link");
 celLink.addEventListener("click", showCelTemp);
+
+searchCity("Amsterdam");
